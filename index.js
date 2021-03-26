@@ -1,8 +1,8 @@
 const inquirer = require('inquirer');
-const generatePage = require('./src/page-template');
-const { writeFile, copyFile } = require('./utils/generate-site');
+const generateReadMe = require('./utils/readme-template');
+const writeFile = require('./utils/generate-readme');
 
-const promptUser = projectData => {
+const promptUser = () => {
   return inquirer.prompt([
     {
       type: 'input',
@@ -32,7 +32,7 @@ const promptUser = projectData => {
     },
     {
         type: 'input',
-        name: 'install-instructions',
+        name: 'install',
         message: 'Provide a installation instructions for your aplication: (Required)',
         validate: installInput => {
           if (installInput) {
@@ -45,7 +45,7 @@ const promptUser = projectData => {
       },
       {
         type: 'input',
-        name: 'usage-description',
+        name: 'usage',
         message: 'Provide usage information for your aplication: (Required)',
         validate: usageInput => {
           if (usageInput) {
@@ -58,7 +58,7 @@ const promptUser = projectData => {
       },
       {
         type: 'input',
-        name: 'contribution-guidelines',
+        name: 'contribution',
         message: 'Provide contribution guidelines for your aplication: (Required)',
         validate: contributionInput => {
           if (contributionInput) {
@@ -161,18 +161,11 @@ const promptUser = projectData => {
 };
 
 promptUser()
-  .then(projectData => {
-    return generatePage(projectData);
+  .then(userInput => {
+    return generateReadMe(userInput);
   })
-  .then(pageHTML => {
-    return writeFile(pageHTML);
-  })
-  .then(writeFileResponse => {
-    console.log(writeFileResponse);
-    return copyFile();
-  })
-  .then(copyFileResponse => {
-    console.log(copyFileResponse);
+  .then(markdown => {
+    return writeFile(markdown);
   })
   .catch(err => {
     console.log(err);
