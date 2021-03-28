@@ -75,7 +75,7 @@ const promptUser = () => {
       message: 'Which license does your application work with?',
       choices: [
         "Apache license 2.0",
-        "GNU Affero General Public License v3.0",
+        "GNU GPL v3",
         "MIT",
         "None"
       ],
